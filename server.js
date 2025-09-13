@@ -124,7 +124,7 @@ app.put('/Users/:id', async (req, res) => {
     }
 
     const updatedData = await usersCollection.updateOne({ _id: new ObjectId(usersId)},{ $set: updateUser});
-  if(!updateUser.name || !updateUser.password || updateUser.email || !newUser.location){
+  if(!updateUser.name || !updateUser.password || !updateUser.email || !newUser.location){
     console.log("User Not Found")
     res.status(400).send("Missing Required Details")
   } else {
