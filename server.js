@@ -186,6 +186,26 @@ app.delete('/Users/:id', async (req, res) => {
 
 // app.use(basicAuth)
 
+
+app.get('/Products/category/:category', async (req, res) => {
+  try {
+    const category = req.params.category;
+    const products = await productsCollection.find({ Category: category }).toArray();
+
+    if (products.length === 0) {
+      console.log("No products found in this category");
+      return res.status(404).send("No products found in this category");
+    }
+
+    console.log(`Products found in category: ${category}`);
+    return res.status(200).json(products);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Server error");
+  }
+});
+
+
 //CRUD FOR PRODUCTS
 app.get('/Products', async (req, res) => {
  const myProducts = await productsCollection.find({}).toArray();
