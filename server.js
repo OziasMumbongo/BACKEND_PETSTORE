@@ -216,7 +216,10 @@ app.get('/Products', async (req, res) => {
 
 app.get("/Products/:id", async (req, res) => {
   try {
-    const product = await Products.findOne({ "Product ID": Number(req.params.id) });
+    // If your Product ID is stored as a NUMBER
+    const product = await productsCollection.findOne({
+      "Product ID": Number(req.params.id)
+    });
 
     if (!product) {
       return res.status(404).json({ message: "Product not found" });
@@ -229,6 +232,7 @@ app.get("/Products/:id", async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
+
 
 
 
