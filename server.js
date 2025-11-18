@@ -216,9 +216,11 @@ app.get('/Products', async (req, res) => {
 
 app.get("/Products/:id", async (req, res) => {
   try {
-    // If your Product ID is stored as a NUMBER
+    const { ObjectId } = require("mongodb");
+    const id = req.params.id;
+
     const product = await productsCollection.findOne({
-      "Product ID": Number(req.params.id)
+      _id: new ObjectId(id)
     });
 
     if (!product) {
@@ -232,8 +234,6 @@ app.get("/Products/:id", async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
-
-
 
 
 app.post('/Products', async (req, res) => {
