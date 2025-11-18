@@ -214,10 +214,9 @@ app.get('/Products', async (req, res) => {
 });
 
 
-// GET single product by _id (dog001, dog002, etc)
-app.get('/Products/:id', async (req, res) => {
+app.get("/Products/:id", async (req, res) => {
   try {
-    const product = await Products.findOne({ _id: req.params.id });
+    const product = await Products.findOne({ "Product ID": Number(req.params.id) });
 
     if (!product) {
       return res.status(404).json({ message: "Product not found" });
@@ -226,9 +225,11 @@ app.get('/Products/:id', async (req, res) => {
     res.json(product);
 
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    console.error(err);
+    res.status(500).json({ error: err.message });
   }
 });
+
 
 
 app.post('/Products', async (req, res) => {
