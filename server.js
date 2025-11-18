@@ -214,23 +214,22 @@ app.get('/Products', async (req, res) => {
 });
 
 
+// GET single product by _id (dog001, dog002, etc)
 app.get('/Products/:id', async (req, res) => {
-  try{
-  const { ObjectId } = require('mongodb');
-  const productsId = req.params.id;
-  const Products = await productsCollection.findOne({ _id: new ObjectId(productsId) });
-  if(!Products){
-    console.log("Product Not Found")
-    return res.status(404).send("Product Not Found")
-  } else {
-    console.log("Product Found")  
-    return res.status(200).send(Products);
-  }
-} catch (error) { 
-    console.error(error);
-    res.status(500).send("Server error");
+  try {
+    const product = await Products.findOne({ _id: req.params.id });
+
+    if (!product) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+
+    res.json(product);
+
+  } catch (err) {
+    res.status(500).json({ message: err.message });
   }
 });
+
 
 app.post('/Products', async (req, res) => {
  try{
